@@ -32,7 +32,7 @@ public class GoalCount : MonoBehaviour
         if (goal.localScale.x >= maxScale)
         {
             isCleared = true;
-            distanceText.text = "‚ ‚Í‚ñ";
+            distanceText.text = "";
             SceneManager.LoadScene("Clear");
             SEManager.Instance.StopBgm();
             SEManager.Instance.PlayBgm(BGMType.BGM3);

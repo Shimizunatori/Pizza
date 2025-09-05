@@ -72,6 +72,8 @@ public class PizzaMove : MonoBehaviour
                 // ゲームオーバー
                 Debug.Log("GameOver");
                 SceneManager.LoadScene("Oh");
+                SEManager.Instance.StopBgm();
+                SEManager.Instance.PlayBgm(BGMType.BGM4);
             }
         }
     }
