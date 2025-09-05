@@ -1,12 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PizzaMove : MonoBehaviour
 {
     [SerializeField] private float _speed;
     [SerializeField] private float _move;
     [SerializeField] private float _outTime;
+    [SerializeField] private GameObject _player;
     private float _moveTime;
     private bool _moveFlag = false;
     private Vector2 _movePosition;
@@ -44,6 +46,7 @@ public class PizzaMove : MonoBehaviour
             _clickTime += Time.deltaTime;
             if (_movePosition.x < 0)
             {
+                _player.transform.localEulerAngles = new Vector3(0, 0, 30);
                 if (Input.GetKeyDown(KeyCode.RightArrow))
                 {
                     _clickCount--;
@@ -51,6 +54,7 @@ public class PizzaMove : MonoBehaviour
             }
             if (_movePosition.x > 0)
             {
+                _player.transform.localEulerAngles = new Vector3(0, 0, -30);
                 if (Input.GetKeyDown(KeyCode.LeftArrow))
                 {
                     _clickCount--;
@@ -61,11 +65,13 @@ public class PizzaMove : MonoBehaviour
                 _movePosition = new Vector2(0, -3);
                 _clickTime = 0;
                 _moveFlag = !_moveFlag;
+                _player.transform.localEulerAngles = new Vector3(0, 0, 0);
             }
             if (_clickTime >= _outTime)
             {
                 // ゲームオーバー
                 Debug.Log("GameOver");
+                SceneManager.LoadScene("Oh");
             }
         }
     }
