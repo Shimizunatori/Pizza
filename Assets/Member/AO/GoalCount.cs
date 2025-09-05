@@ -2,34 +2,40 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GoalCount : MonoBehaviour
 {
-    [SerializeField]
-    private Transform player;
     [SerializeField]
     private Transform goal;
     [SerializeField]
     private Text distanceText;
     [SerializeField]
-    private float goalSpeed;
+    private float goalScaleSpeed;
+    [SerializeField]
+    private float maxScale;
 
-    // Start is called before the first frame update
-    void Start()
-    {
+    private bool isCleared = false;
 
-    }
-
-    // Update is called once per frame
     void Update()
     {
-        goal.position = Vector2.MoveTowards(goal.position, player.position, goalSpeed * Time.deltaTime);
-        float distance = Vector2.Distance(player.position, goal.position);
-        distanceText.text = "目的地まで : " + distance.ToString("F0") + "m";
+        if (isCleared) return;
 
-        if (distance <= 0.1f)
+        if (goal.localScale.x < maxScale)
         {
+            goal.localScale += Vector3.one * goalScaleSpeed * Time.deltaTime;
+        }
+
+        float remaining = Mathf.Max(0, (maxScale - goal.localScale.x) * 10f);
+        distanceText.text = "目的地まで : " + remaining.ToString("F0") + "m";
+
+        if (goal.localScale.x >= maxScale)
+        {
+            isCleared = true;
             distanceText.text = "あはん";
+            SceneManager.LoadScene("Clear");
+            SEManager.Instance.StopBgm();
+            SEManager.Instance.PlayBgm(BGMType.BGM3);
         }
     }
 }
